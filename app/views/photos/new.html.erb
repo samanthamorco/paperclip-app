@@ -1,6 +1,6 @@
 <div class="page-header"><h1>Upload Photo</h1></div>
 
-<%= form_tag "/photos", method: :post, html: { multipart: true } do %>
+<%= form_tag "/photos", method: :post, multipart: true do %>
 
   <div class="form-group">
     <%= label_tag :title %>
