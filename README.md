@@ -4,10 +4,13 @@
 1. [ImageMagick](http://www.imagemagick.org/) must be installed and Paperclip must have access to it. To install ImageMagick on MacOS with homebrew, run the following command:
 
 ```brew install imagemagick```
+
 2. Install the Paperclip gem in your existing Rails app:
 
 ```gem "paperclip", "~> 5.0.0"```
+
 (Or check the [Paperclip docs](https://github.com/thoughtbot/paperclip#installation) for the newest version of the gem.)
+
 3. Bundle your gem file, and restart your rails server if it is currently running.
 
 ```bundle install```
