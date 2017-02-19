@@ -1,17 +1,17 @@
 # How to use Paperclip with a Rails app and form_tag
 
 ## Installing Paperclip
-1. [ImageMagick](http://www.imagemagick.org/) must be installed and Paperclip must have access to it. To install ImageMagick on MacOS with homebrew, run the following command:
+[ImageMagick](http://www.imagemagick.org/) must be installed and Paperclip must have access to it. To install ImageMagick on MacOS with homebrew, run the following command:
 
 ```brew install imagemagick```
 
-2. Install the Paperclip gem in your existing Rails app:
+Install the Paperclip gem in your existing Rails app:
 
 ```gem "paperclip", "~> 5.0.0"```
 
 (Or check the [Paperclip docs](https://github.com/thoughtbot/paperclip#installation) for the newest version of the gem.)
 
-3. Bundle your gem file, and restart your rails server if it is currently running.
+Bundle your gem file, and restart your rails server if it is currently running.
 
 ```bundle install```
 
@@ -132,6 +132,71 @@ That will display the image. The `image.url` is a [Paperclip method](http://www.
 
 And that's about it! For now, these images get stored in your `public` folder. For a production app, it would be better to have these stored in AWS or another server.
 
-## Uploading to AWS
+# Uploading to AWS
+
 [AWS (Amazon Web Services)](https://console.aws.amazon.com/console/home) is a secure cloud services platform that you can use in conjunction with your app. When you first sign up, you are eligible to use free tier services for your first year, which means that as long as you're not doing anything crazy, you can play around with AWS for free!
 
+So before you do anything, sign up for an AWS account.
+
+## S3 Bucket
+
+We're going to be using S3 Buckets to store the images. You can create a new bucket for every project/app that you create.
+
+To create a new bucket, go into your AWS console and select "S3". There should be a button to create a new bucket. Click the button and start creating your bucket.
+
+You can name your bucket whatever you liked (I named mine acltc-paperclip-s3). Bucket names are unique, so if you wanted to name your bucket 'purple-hippo' but someone already named theirs that, you cannot also name it 'purple-hippo'. 
+
+You can also select your region, which is the endpoint for your server. Ideally you'd pick a region closest to where you currently live to reduce data latency. More information can be found on the [AWS Region and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html) page. 
+
+You can leave the other settings as default.
+
+## Secret Access Key
+
+You will need an access key later on to configure AWS. AWS has a [great tutorial](https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html) about this, so I will skip this section and refer you to their docs.
+
+## Configuring your app with AWS
+
+The first thing we have to do is add a new gem to our app to allow us to access AWS. Add:
+
+```gem 'aws-sdk', '~> 2.3'```
+
+into your gem file. Don't forget to bundle install!
+
+## Configuring Your Environment
+
+Now you need to configure your environment to add in Paperclip configurations. For the sake of my example I'm only working on development so I will only update my `development.rb` file, but when I push up to production I will also want to add code to my `production.rb`file. Both of these files can be found under `config/environments`.
+
+Somewhere in your file you will want to add the following code:
+
+```
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_host_name: ENV['AWS_HOST_NAME'],
+    s3_credentials: {
+      bucket: ENV['S3_BUCKET_NAME'],
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      s3_region: ENV['AWS_REGION'],
+    }
+  }
+```
+
+Here I'm using environmental variables to keep things such as my secret access key a, well, secret. I personally use ['dot-env gem'](https://github.com/bkeepers/dotenv) to store these in development, but feel free to use whatever you like.
+
+The environmental variables should be self-explanatory from their name except for the host_name. The important thing to note about the host name is that it should be configured like this:
+
+```s3-us-west-1.amazonaws.com```
+
+And replace `us-west-1` with your region.
+
+To compare, my ENV variables look something like this:
+
+```
+S3_BUCKET_NAME=acltc-paperclip-s3
+AWS_ACCESS_KEY_ID=insert-your-access-key-here
+AWS_SECRET_ACCESS_KEY=insert-secret-access-key-here
+AWS_REGION=us-west-1
+AWS_HOST_NAME=s3-us-west-1.amazonaws.com
+```
+
+If you were running your rails server, be sure to restart it before testing. Now everything should work out and it will no longer upload the images into your public folder, but straight to your S3 bucket!
