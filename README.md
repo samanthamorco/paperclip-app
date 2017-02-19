@@ -130,4 +130,8 @@ So for example, in a show page with an `@photo` variable, you should have the fo
 
 That will display the image. The `image.url` is a [Paperclip method](http://www.rubydoc.info/gems/paperclip/Paperclip/ClassMethods).
 
-And that's about it! For now, these images get stored in your `public` folder. For a production app, it would be better to have these stored in AWS or another server. I will update this guide with information about that in the future, or you can look up other tutorials for that.
+And that's about it! For now, these images get stored in your `public` folder. For a production app, it would be better to have these stored in AWS or another server.
+
+## Uploading to AWS
+[AWS (Amazon Web Services)](https://console.aws.amazon.com/console/home) is a secure cloud services platform that you can use in conjunction with your app. When you first sign up, you are eligible to use free tier services for your first year, which means that as long as you're not doing anything crazy, you can play around with AWS for free!
+
