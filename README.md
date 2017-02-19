@@ -185,7 +185,7 @@ Here I'm using environmental variables to keep things such as my secret access k
 
 The environmental variables should be self-explanatory from their name except for the host_name. The important thing to note about the host name is that it should be configured like this:
 
-```s3-us-west-1.amazonaws.com```
+`s3-us-west-1.amazonaws.com`
 
 And replace `us-west-1` with your region.
 
