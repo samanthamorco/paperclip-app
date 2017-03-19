@@ -15,12 +15,20 @@ Bundle your gem file, and restart your rails server if it is currently running.
 
 ```bundle install```
 
+## Create a controller
+
+If you haven't yet, create a photos controller.
+
+```rails g controller photos```
+
 ## Adding the image attribute to a model.
 If you haven't yet, create a new model where you want to upload the image to, such as a Photo model. Do *not* put the image attribute in yet.
 
 ```rails g model Photo title:string```
 
-Migrate:
+If you already have the image attribute, you should run a migration to remove it. 
+
+After everything... migrate:
 
 ```rake db:migrate```
 
