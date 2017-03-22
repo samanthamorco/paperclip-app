@@ -109,7 +109,7 @@ class PhotosController < ApplicationController
   # index and new actions
 
   def create
-    @photo = Photo.new(photo_params)
+    @photo = Photo.new(title: params[:title], image: params[:image])
     if @photo.save
       flash[:success] = "The photo was added!"
       redirect_to photos_path
@@ -118,15 +118,10 @@ class PhotosController < ApplicationController
     end
   end
 
-  private
-
-  def photo_params
-    params.permit(:image, :title)
-  end
 end
 ```
 
-Here we're taking advantage of strong parameters to assure that only the image and title attributes save to the database, but otherwise the controller looks the same as any other controller would.
+The controller looks the same as any other controller would. Basically, save whatever params you are passing through.
 
 ## Displaying the images
 
