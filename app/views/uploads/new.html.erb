@@ -1,0 +1,16 @@
+<h1>Upload Documents</h1>
+
+<%= form_tag "/uploads", method: :post, multipart: true do %>
+
+  <div>
+    <%= label_tag :uploader_name %>
+    <%= text_field_tag :uploader_name %>
+  </div>
+
+  <div>
+    <%= label_tag :document %>
+    <%= file_field_tag :document %>
+  </div>
+
+  <%= submit_tag 'Upload' %>
+<% end %>

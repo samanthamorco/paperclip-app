@@ -1,0 +1,10 @@
+<% @documents.each do |uploaded_doc| %>
+  <div>
+    <div>
+      <%= link_to uploaded_doc.document_file_name, uploaded_doc.document.url, target: "blank" %>
+    </div>
+    <div>
+      <h4>Uploaded by: <%= uploaded_doc.uploader_name %></h4>
+    </div>
+  </div>
+<% end %>
